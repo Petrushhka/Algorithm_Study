@@ -10,44 +10,42 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
 
-        int[][] arr = new int[N][N];
+        int[] arr = new int[n];
+        int[] prefix = new int[n];
+        int[] mod = new int[n];
+        int count = 0;
 
-        for (int i = 0; i < N; i++) {
-            StringTokenizer st2 = new StringTokenizer(br.readLine());
-            for (int j = 0; j < N; j++) {
-                arr[i][j] = Integer.parseInt(st2.nextToken());
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++){
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+        for(int i  = 1; i < n; i++){
+           prefix[0] = arr[0];
+           prefix[i] = prefix[i-1]+arr[i];
+        }
+
+        for(int i = 0; i < n; i++){
+            mod[i] = prefix[i] % m;
+            if(mod[i] == 0) {
+                count++;
             }
         }
 
-        for (int i = 0; i < M; i++) {
-            StringTokenizer st3 = new StringTokenizer(br.readLine());
 
-            int w = Integer.parseInt(st3.nextToken());
-            int x1 = Integer.parseInt(st3.nextToken()) - 1;
-            int y1 = Integer.parseInt(st3.nextToken()) - 1;
-            int x2 = Integer.parseInt(st3.nextToken()) - 1;
 
-            if (w == 1) {
-                int y2 = Integer.parseInt(st3.nextToken()) - 1;
 
-                int sum = 0;
 
-                for (int j = x1; j <= x2; j++) { // y2가 마지막
-                    for (int k = y1; k <= y2; k++) {
-                        sum += arr[j][k];
-//                            System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
-                    }
-                }
-                System.out.println(sum);
-                ;
-            } else {
-                x2++;
-                arr[x1][y1] = x2;
-            }
+        System.out.println(Arrays.toString(prefix));
+        System.out.println(Arrays.toString(arr));
+        System.out.println(Arrays.toString(mod));
 
-        }
+
+
+
+
     }
-}
+    }
