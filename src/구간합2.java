@@ -24,32 +24,45 @@ public class 구간합2 {
         int[][] origin = new int[N + 1][N + 1];
         int[][] prefix = new int[N + 1][N + 1];
 
-        origin[0][0] = 0;
-        prefix[0][0] = 0;
-
         for (int i = 1; i < origin.length; i++) {
             StringTokenizer st2 = new StringTokenizer(br.readLine());
             for (int j = 1; j < origin.length; j++) {
                 origin[i][j] = Integer.parseInt(st2.nextToken());
-                prefix[i][j] = prefix[i][j - 1] + origin[i][j];
+            }
+        }
+
+//        // 초기 행열 누적합
+//        for (int i = 1; i <origin.length; i++) {
+//            StringTokenizer st2 = new StringTokenizer(br.readLine());
+//            int input = Integer.parseInt(st2.nextToken());
+//            prefix[1][i] = prefix[1][i - 1] + origin[1][i]; // 초기 행(가장위) 초기화
+//            prefix[i][1] = prefix[i][1] + origin[i][1];
+//        }
+
+        for (int i = 1; i < origin.length; i++) {
+            for (int j = 1; j < origin.length; j++) {
+                prefix[i][j] = prefix[i][j-1]+prefix[i-1][j]-prefix[i-1][j-1]+origin[i][j];
             }
         }
 
         for(int i=0; i<M; i++){
-            StringTokenizer st3 = new StringTokenizer(br.readLine());
-            int x1 =Integer.parseInt(st3.nextToken());
-            int x2 = Integer.parseInt(st3.nextToken());
-            int y1 = Integer.parseInt(st3.nextToken());
-            int y2 = Integer.parseInt(st3.nextToken());
-            int sum = 0;
-            for(int j=x1; j<=y1; j++) {
-                sum += prefix[j][y2] - prefix[j][x2 - 1];
-               if(j==y1) {
-                   System.out.println(sum);
-                    sum = 0;
-               }
-            }
+            StringTokenizer st2 = new StringTokenizer(br.readLine());
+            int x1 = Integer.parseInt(st2.nextToken()); // 행
+            int x2 = Integer.parseInt(st2.nextToken()); //열
+            int y1 = Integer.parseInt(st2.nextToken()); //행
+            int y2 = Integer.parseInt(st2.nextToken()); //열
+
+            /*
+            가장 큰 누적합(y1,y2) - 겹치는 구간의 누적합(x1-1,y2) - (y1,x2-1)+ (x1-1, x2-1)
+             */
+
+           int sum = prefix[y1][y2] - prefix[x1-1][y2] - prefix[y1][x2-1] + prefix[x1-1][x2-1];
+            System.out.println(sum);
+
+
+
         }
+
 
     }
 }
