@@ -46,8 +46,6 @@ public class dfs문제 {
         return Integer.parseInt(string);
     }
 
-    static boolean[] visited = new boolean[N + 1];
-
     private static void dfs(int node) {
         visited[node] = true;
         for (int i = 1; i <= N; i++) {
@@ -57,7 +55,8 @@ public class dfs문제 {
         }
     }
 
-    static int[][] origin = new int[N + 1][N + 1];
+    static int[][] origin;
+    static boolean[] visited;
 
     public static void main(String[] args) throws IOException {
 
@@ -67,7 +66,10 @@ public class dfs문제 {
         N = parseInt(st.nextToken());
         M = parseInt(st.nextToken());
 
-        int count = 0;
+         origin = new int[N + 1][N + 1];
+         visited = new boolean[N + 1];
+
+        int count = 0; // 그래프의 갯수
 
         for (int i = 0; i < M; i++) {
             StringTokenizer st2 = new StringTokenizer(br.readLine());
@@ -85,8 +87,8 @@ public class dfs문제 {
                 count++;
             }
 
-            System.out.println(count);
         }
+            System.out.println(count);
 
     }
 }
