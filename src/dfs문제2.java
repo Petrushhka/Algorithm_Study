@@ -21,7 +21,7 @@ public class dfs문제2 {
 
   가장 밖에서부터 10의 자리수까지 조합이 차례대로 모두 소수인 경우를 만족해야함
 
-  1) N -> 자리수 지정
+  1) N -> 자리수 지정 (N이 1자리만 출력한다면 바로 2.3.5.7 출력)
   2) 예시를 보면 가장 큰자리의 숫자는 반드시 소수여야함. 따라서 저기서 x10 씩 증가해서 소수인지 아닌지 판별
   3) dfs(2) -> 를 시작하면  21,22,23 등을 탐색해서 소수인 애들만 판별.
   4) 21은 소수가 아님. 따라서 더 이상 탐색하면 안됨 return;
@@ -29,7 +29,7 @@ public class dfs문제2 {
   6) 231, 232...
   7) 총 N번째 자리까지 갔다면 출력
   8) 소수 판별 함수 boolean isPrime(int number)
-  -> for(int i=2; i<number; i++)
+  -> for(int i=2; i*i<=number; i++) ->  제곱근의 법칙을 이용하면 반복문을 줄일수있음
   -> if(number % i == 0)
   -> return false;
   -> else { return true; }
@@ -49,7 +49,7 @@ public class dfs문제2 {
 
 
     static boolean isPrime(int number){
-        for(int i=2; i<number; i++) {
+        for(int i=2; i*i<=number; i++) {
             if (number % i == 0) {
                 return false;
             }
@@ -76,7 +76,13 @@ public class dfs문제2 {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-
+        if(N == 1){
+            System.out.println(2);
+            System.out.println(3);
+            System.out.println(5);
+            System.out.println(7);
+            return;
+        }
         dfs(2);
         dfs(3);
         dfs(5);
