@@ -19,9 +19,10 @@ public class dfs문제_인접리스트 {
 
     static void dfs(int node){
         visited[node] = true;
-        int connectNode = graph[node].get(0);
-        if(!visited[connectNode]){
-            dfs(connectNode);
+        for(int nextNode : graph[node]){
+            if(!visited[nextNode]){
+                dfs(nextNode);
+            }
         }
 
     }
@@ -37,6 +38,10 @@ public class dfs문제_인접리스트 {
         visited = new boolean[N+1];
 
         for(int i=1; i<=N; i++){
+            graph[i] = new ArrayList<>();
+        }
+
+        for(int i=0; i<M; i++){
             StringTokenizer st2 = new StringTokenizer(br.readLine());
             int start = Integer.parseInt(st2.nextToken());
             int end = Integer.parseInt(st2.nextToken());
