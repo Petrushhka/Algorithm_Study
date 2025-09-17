@@ -15,17 +15,17 @@ public class dfs문제3 {
 
     static int N, M;
     static boolean isTrue;
-    static boolean[][] origin;
+    static List<Integer>[] origin;
     static boolean[] visited;
 
     static void dfs(int node, int depth) {
         if (depth >= 5) isTrue = true;
         visited[node] = true;
-        for (int nextNode = 0; nextNode < N; nextNode++) {
-            if (origin[node][nextNode] && !visited[nextNode]) {
-                dfs(nextNode, depth + 1);
-            }
+
+        for(int nextNode : origin[node]){
+            if(!visited[nextNode]) dfs(nextNode, depth+1);
         }
+
         visited[node] = false;
     }
 
@@ -36,16 +36,21 @@ public class dfs문제3 {
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        origin = new boolean[N][N];
+        origin = new ArrayList[N];
         visited = new boolean[N];
+
+        for(int i=0; i<N; i++){
+            origin[i] = new ArrayList<>();
+        }
+
 
         for (int i = 0; i < M; i++) {
             StringTokenizer st2 = new StringTokenizer(br.readLine());
             int start = Integer.parseInt(st2.nextToken());
             int end = Integer.parseInt(st2.nextToken());
 
-            origin[start][end] = true;
-            origin[end][start] = true;
+            origin[start].add(end);
+            origin[end].add(start);
         }
 
         for (int i = 0; i < N; i++) {
