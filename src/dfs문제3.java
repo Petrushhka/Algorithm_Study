@@ -19,7 +19,7 @@ public class dfs문제3 {
     static boolean[] visited;
 
     static void dfs(int node, int depth) {
-        if (depth >= 5) isTrue = true;
+        if (depth >= 5) {isTrue = true; return;}
         visited[node] = true;
 
         for(int nextNode : origin[node]){
@@ -56,6 +56,7 @@ public class dfs문제3 {
         for (int i = 0; i < N; i++) {
             if (!visited[i]) {
                 dfs(i, 1);
+                if(isTrue) break;
             }
         }
 
