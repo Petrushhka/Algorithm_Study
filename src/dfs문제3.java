@@ -14,20 +14,19 @@ public class dfs문제3 {
      */
 
     static int N, M;
-    static int depth;
+    static boolean isTrue;
     static boolean[][] origin;
     static boolean[] visited;
 
-    static void dfs(int node) {
-        if (!visited[node]) {
-            visited[node] = true;
-            depth++;
-            for (int i = 0; i < N; i++) {
-                if (origin[node][i]) {
-                    dfs(i);
-                }
+    static void dfs(int node, int depth) {
+        if (depth >= 5) isTrue = true;
+        visited[node] = true;
+        for (int nextNode = 0; nextNode < N; nextNode++) {
+            if (origin[node][nextNode] && !visited[nextNode]) {
+                dfs(nextNode, depth + 1);
             }
         }
+        visited[node] = false;
     }
 
     public static void main(String[] args) throws IOException {
@@ -50,12 +49,12 @@ public class dfs문제3 {
         }
 
         for (int i = 0; i < N; i++) {
-            if(!visited[i]){
-                dfs(i);
+            if (!visited[i]) {
+                dfs(i, 1);
             }
         }
 
-        System.out.println(depth==5 ? 1 : 0);
+        System.out.println(isTrue ? 1 : 0);
 
 
     }
