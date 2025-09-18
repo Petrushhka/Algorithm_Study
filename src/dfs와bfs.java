@@ -5,7 +5,7 @@ import java.lang.*;
 // https://www.acmicpc.net/problem/1260
 
 
-public class dfs_bfs {
+public class dfs와bfs {
     /*
      N: 노드의 개수
      M: 간선의 수
@@ -26,8 +26,10 @@ public class dfs_bfs {
 
      */
 
+    static int N,M,V;
     static List<Integer>[] origin;
     static boolean visited[];
+    static ArrayDeque<Integer> deq;
 
     static void dfs(int node) {
         if (!visited[node]) {
@@ -41,14 +43,32 @@ public class dfs_bfs {
         }
     }
 
+    static void bfs(int node){
+        visited[node] = true;
+        deq.addFirst(node);
+
+        while(!deq.isEmpty()){
+            int pollNode = deq.pollLast();
+            System.out.print(pollNode+" ");
+
+            for(int next : origin[pollNode]){
+                if(!visited[next] && origin[pollNode].contains(next) && origin[next].contains(pollNode)){
+                    visited[next]=true;
+                    deq.addFirst(next);
+                }
+            }
+        }
+
+    }
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
-        int V = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        V = Integer.parseInt(st.nextToken());
 
         visited = new boolean[N + 1];
         origin = new ArrayList[N + 1];
@@ -68,11 +88,12 @@ public class dfs_bfs {
             origin[end].add(start);
         }
 
-        for (int i = 1; i <= N; i++) {
-            if (!visited[i]) {
-                dfs(i);
-            }
+        for(int i=1; i<=N; i++){
+            Collections.sort(origin[i]); // 번호가 작은 정점부터 오름차순
         }
+
+                dfs(V);
+
 
         System.out.println(); // 아래서 부턴 BFS
 
@@ -90,34 +111,19 @@ public class dfs_bfs {
          3) 큐에서 가장먼저 들어온 노드를 뺀다.(출력한다.)
          4) 다시 연결 노드를 큐에 넣는다.(해당 노드에 방문여부를 확인한 후에)
          5) 방문 배열이 전부 찼으면 끝낸다.
+
+         !!!!!!!! 조건이 큐가 비어있지 않다면일때, 반복문으로 큐에 데이터를 삽입하면 계속 비어질때까지 큐의 데이터를 넣고 뺄 수 있음.
          */
 
         for (int i = 0; i < visited.length; i++) {
             visited[i] = false;
         }
 
-        ArrayDeque<Integer> deq = new ArrayDeque<>();
+        deq = new ArrayDeque<>();
 
-        for (int i = 1; i <= N; i++) {
-            if (!visited[i] && !deq.isEmpty()) {
-                deq.pollLast();
-            }
+        bfs(V);
 
-            if (!visited[i]) {
-                visited[i] = true;
-                deq.offerFirst(i);
-                int pollNode = deq.pollLast();
-                System.out.print(pollNode + " ");
-                for (int nextNode : origin[pollNode]) {
-                    if (!visited[nextNode]) {
-                        visited[nextNode] = true;
-                        deq.offerFirst(nextNode);
-                        int nextNode2 = deq.pollLast();
-                        System.out.print(nextNode2+" ");
-                    }
-                }
-            }
-        }
+
 
 
     }
