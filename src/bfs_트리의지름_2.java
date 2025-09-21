@@ -1,11 +1,11 @@
 import java.util.*;
 
 
-public class Practice {
+public class bfs_트리의지름_2 {
 
     public static class Node {
         int selfIndex;
-        List<Practice.Node> child;
+        List<bfs_트리의지름_2.Node> child;
 
 
         Node(int a) {

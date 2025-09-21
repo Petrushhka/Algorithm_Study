@@ -3,7 +3,7 @@ import java.io.*;
 import java.lang.*;
 
 // https://www.acmicpc.net/problem/1167
-public class Tree {
+public class bfs_트리의지름 {
 
     public static void main(String[] args) throws IOException {
 
@@ -34,17 +34,17 @@ public class Tree {
         }
 
 
-
         int[][] sumCost = new int[V + 1][V + 1];
         int result = 0;
         Deque<Integer> deq = new ArrayDeque<>();
 
         deq.offerFirst(1);
+        int currentCost = 0; // 지금까지 더해왔던 비용의 합(이걸 기준으로 다른 자식들도 더할거임)
+
         while (!deq.isEmpty()) {
             visited[1] = true;
             int pollNode = deq.pollLast();
 
-            int currentCost = 0; // 지금까지 더해왔던 비용의 합(이걸 기준으로 다른 자식들도 더할거임)
 
             for (int k = 0; k < origin[pollNode].size(); k++) {
                 Map<Integer, Integer> nextNodeValueMap = origin[pollNode].get(k);
@@ -61,25 +61,24 @@ public class Tree {
                     deq.offerFirst(nextNode);
                     visited[nextNode] = true;
 
-
                     sumCost[pollNode][nextNode] = currentCost + valueOrCost;
-                    currentCost = sumCost[pollNode][nextNode];
-
+                    if (k == origin[pollNode].size() - 1) {
+                        currentCost = sumCost[pollNode][nextNode];
+                    }
 
                 }
             }
 
         }
-            // 가장 큰 비용 구하기
-            for (int k = 1; k <= V; k++) {
-                for (int j = 1; j <= V; j++) {
-                    if (sumCost[k][j] > result) {
-                        result = sumCost[k][j];
-                    }
+        // 가장 큰 비용 구하기
+        for (int k = 1; k <= V; k++) {
+            for (int j = 1; j <= V; j++) {
+                if (sumCost[k][j] > result) {
+                    result = sumCost[k][j];
                 }
-                System.out.println(result);
             }
-
+        }
+        System.out.println(result);
 
 
     }
