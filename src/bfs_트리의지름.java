@@ -39,7 +39,7 @@ public class bfs_트리의지름 {
         Deque<Integer> deq = new ArrayDeque<>();
 
         deq.offerFirst(1);
-        int currentCost = 0; // 지금까지 더해왔던 비용의 합(이걸 기준으로 다른 자식들도 더할거임)
+        int currentCost = 0; // 간선비용의 합을 저장하는 변수 -> 이것으로부터 자식 노드의 간선의 합을 구함.
 
         while (!deq.isEmpty()) {
             visited[1] = true;
@@ -62,8 +62,11 @@ public class bfs_트리의지름 {
                     visited[nextNode] = true;
 
                     sumCost[pollNode][nextNode] = currentCost + valueOrCost;
+                    if(currentCost > result) result = currentCost;
+
                     if (k == origin[pollNode].size() - 1) {
                         currentCost = sumCost[pollNode][nextNode];
+                        if(currentCost > result) result = currentCost;
                     }
 
                 }
@@ -71,13 +74,13 @@ public class bfs_트리의지름 {
 
         }
         // 가장 큰 비용 구하기
-        for (int k = 1; k <= V; k++) {
-            for (int j = 1; j <= V; j++) {
-                if (sumCost[k][j] > result) {
-                    result = sumCost[k][j];
-                }
-            }
-        }
+//        for (int k = 1; k <= V; k++) {
+//            for (int j = 1; j <= V; j++) {
+//                if (sumCost[k][j] > result) {
+//                    result = sumCost[k][j];
+//                }
+//            }
+//        }
         System.out.println(result);
 
 
@@ -87,35 +90,47 @@ public class bfs_트리의지름 {
 
         /*
 
-        노드를 넘어갈때마다 간선의비용을 확인하기 위한 배열 sumCost[V+1][V+1]
+        큐에 노드의 번호를 넣어줌
+        큐가 비어있지 않다는 조건으로 while문 반복{
 
-        1번 노드를 que에 삽입
+        1번노드부터 시작
+        간선비용 저장하는 변수 = 0;
+         pollNode = 1번 노드가 나옴
+         pollNode에 연결된 노드를 연결해줌
+         for(origin[pollNode]의 size만큼){
 
-        1번노드의 방문배열 체크
+         origin[pollNode]는 Map의 형태임
 
-        1번 노드를 뺄 때, (다음의 노드가 방문된적 없다면)다음의 노드를 다시 큐에 삽입과 동시에
+         <Key값과 Value를 알고싶으면 반복문으로 돌려야함.>
 
-        [현재노드][다음노드] = map.다음노드.값 을 지정
+         key와 value를 변수에 저장.
 
-        다음 노드가 큐에서 빠질 때, 다음노드2를 큐에 삽입과 동시에
+         key = nextNode
 
-        [다음노드][다음노드2] = [현재노드][다음노드] + map.다음노드2.값
-       -----------------------------------------
+         if(다음노드에 방문한적없다면)
+         큐에 다음노드 넣기
+         방문체크하기
 
-        [현재노드][다음노드] << 이값을 어떻게 들고있을거냐?
+         간선비용을 이차원 배열에다가 담음
 
-        다음 노드를 진행하기 전에 List의 Size를 확인함
-        그 안에서  while문을 돌 때 while문 밖에서 현재 노드만 기억하고 잇으면됨
+         간선비용[현재노드][다음노드] = 부모의 간선비용 + 간선비용
+
+         부모의 간선비용을 기억하기위해 특정 변수 currentCost로 값을 저장.
+
+         currentCost는 마지막까지 for문을 돌면 다시 값이 초기화됨.(자식노드가 여러개일때 매번 초기화 할 수 없음)
+
+         모두 큐를 돌고나면
+
+         이차원배열에서 가장 큰값을 출력!
+
+         result변수에 currentCost가 더 클때마다 갱신해서 최대값만 가지고 있게하기.
 
 
-       --------------------------------------
-       최대값의 판단은 다음과 처럼
 
-       if(방문체크가 전부 방문되는 순간)
-       지금 방문한 노드가 최종 값들의 모든 합이 되는 셈임
+         }
 
-       따라서 해당 행에서 가장 큰 갑을 골라내면됨
 
+        }
 
          */
 
