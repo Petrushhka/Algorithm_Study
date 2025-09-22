@@ -8,6 +8,7 @@ public class bfs_트리의지름_2 {
         int selfIndex;
         int cost;
         List<bfs_트리의지름_2.Node> child;
+
         Node(int a) {
             this.selfIndex = a;
         }
@@ -23,13 +24,13 @@ public class bfs_트리의지름_2 {
         }
     }
 
-    static List<Integer> check = new ArrayList<>(); // 등록리스트
+    static boolean[] visited; // 등록리스트
 
 
     static Node makeTree(int nodeIndex, List<Edge>[] edgeListArray) {
 //        if (check.contains(nodeIndex))
 //            return null;
-        check.add(nodeIndex);
+        visited[nodeIndex] = true;
 
         Node routeNode = new Node(nodeIndex);
         List<Node> children = new ArrayList<>(); // 빈 리스트 초기화(이후에 간선정보담음)
@@ -39,8 +40,7 @@ public class bfs_트리의지름_2 {
         for (Edge edge : edgeList) {
             int nxt = edge.twoNodeIndex;
 
-            if (!check.contains(nxt)) {
-                check.add(edge.twoNodeIndex);
+            if (!visited[nxt]) {
                 Node childNode = makeTree(edge.twoNodeIndex, edgeListArray); // 자식노드를 재귀하여 손자노드 탐색
                 childNode.cost = edge.cost; // 간선비용 저장
                 children.add(childNode); // 부모노드 리스트에 자식노드 객체 저장
@@ -78,36 +78,38 @@ public class bfs_트리의지름_2 {
     }
 
 
-        public static void main (String[]args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            int N = Integer.parseInt(br.readLine());
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
 
-            List<Edge>[] nodeList = new ArrayList[N + 1];
+        visited = new boolean[N + 1];
 
-            for (int i = 1; i <= N; i++) {
-                nodeList[i] = new ArrayList<>();
-            }
+        List<Edge>[] nodeList = new ArrayList[N + 1];
 
-            for (int i = 1; i <= N; i++) {
-                StringTokenizer st = new StringTokenizer(br.readLine());
-                Integer.parseInt(st.nextToken());
-                while (true) {
-                    int nextNumb1 = Integer.parseInt(st.nextToken());
-                    if (nextNumb1 == -1) break;
-                    int nextNumb2 = Integer.parseInt(st.nextToken());
-
-                    Edge edge = new Edge(nextNumb1, nextNumb2);
-                    nodeList[i].add(edge);
-                }
-            }
-
-
-            Node root = makeTree(1, nodeList);
-
-            dfsDepth(root);
-            System.out.println(maxDiameter);
+        for (int i = 1; i <= N; i++) {
+            nodeList[i] = new ArrayList<>();
         }
 
+        for (int i = 1; i <= N; i++) {
+            StringTokenizer st = new StringTokenizer(br.readLine());
+            int root = Integer.parseInt(st.nextToken());
+            while (true) {
+                int nextNumb1 = Integer.parseInt(st.nextToken());
+                if (nextNumb1 == -1) break;
+                int nextNumb2 = Integer.parseInt(st.nextToken());
+
+                Edge edge = new Edge(nextNumb1, nextNumb2);
+                nodeList[root].add(edge);
+            }
+        }
+
+
+        Node root = makeTree(1, nodeList);
+
+        dfsDepth(root);
+        System.out.println(maxDiameter);
     }
+
+}
