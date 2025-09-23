@@ -33,45 +33,29 @@ public class 이분탐색1 {
 
         /*
         1) 원본 배열의 중앙값을 정한다.
-        2) 중앙값을 기준으로 target이 작으면, 중앙값의 기준 오른쪽을 전부버리고 새롭게 중앙값 세팅
-        3) 중앙값을 기준으로 크면 오른쪽으로, 중앙값의 기준으로 왼쪽을 전부버리고 새롭게 중앙값 세팅
+        2) 중앙값을 기준으로 target이 작으면, 오른쪽경계를 -1 한다. (그리고 다시 중앙값을 구함. 중앙값을 포함한 오른쪽은 전부 제외됨)
+        3) 중앙값을 기준으로 크면 오른쪽으로, 왼쪽경계를 +1 한다.(그리고 다시 중앙값을 구함. 중앙값을 포함한 왼쪽은 전부 제외됨)
         4) 중앙값과 일치하지 않으면 0
          */
 
-            int firstCenter = origin.length / 2;
-            int center = firstCenter;
+            int left = 0;
+            int right = origin.length-1;
+            boolean found = false;
 
-            while (true) {
-                if (target == origin[center]) {
-                    System.out.println(1);
+
+            while (left<=right) {
+                int mid = (left+right) / 2;
+                if(origin[mid] == target){
+                    found = true;
                     break;
+                }else if(origin[mid] < target){
+                    left = mid +1;
+                }else{
+                    right = mid-1;
                 }
-
-
-                if (target < origin[center]) {
-                    center = center / 2;
-                }
-                if (target > origin[center]) {
-                    int tempCenter = (center + center / 2);
-                    if(tempCenter >= origin.length){
-                        center = origin.length-1;
-                    }else { center = tempCenter; }
-                }
-
-
-                if (target == origin[center]) {
-                    System.out.println(1);
-                    break;
-                }
-
-                if(center == origin.length-1) break;
 
             }
-
-            if (target != origin[center]) {
-                System.out.println(0);
-            }
-
+                System.out.println(found ? 1:0);
 
         }
 
