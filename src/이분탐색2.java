@@ -33,48 +33,38 @@ public class 이분탐색2 {
 
         int[] origin = new int[N];
         int right = 0;
+        int left = 0;
 
 
         StringTokenizer st2 = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) {
             origin[i] = Integer.parseInt(st2.nextToken());
+            left = Math.max(left, origin[i]); // 강의 길이는 순서대로가 아니라 강의 순서대로 길이가 주어지는거였음.!!!
             right += origin[i];
         }
-        int left = origin[N - 1];
 
         int result = 0;
 
-        while (left < right) {
+        while (left <= right) {
             int mid = (left + right) / 2;
             int sum = 0;
-            int count = 0; // 현재까지 사용된 블루레이 갯수
+            int count = 1; // 현재까지 사용된 블루레이 갯수
 
-            for (int i = 0; i < N; i++) {
-                if (mid > sum) {
+            for(int i=0; i<N; i++){
+                if(sum+origin[i] <= mid){
                     sum += origin[i];
-                }
-                if (sum == mid) {
+                }else if(sum+origin[i] > mid){
                     count++;
-                    sum = 0;
-                }
-                if (sum >= mid) {
-                    count++;
-                    sum = 0;
-                    sum += origin[i];
+                    sum = origin[i];
                 }
             }
-
-            if (count < M) { //최소 값을 구해야해서 더 작은 값을 구해야함.
+            if (count <= M) {
+                result = mid;//최소 값을 구해야해서 더 작은 값을 구해야함.
                 right = mid - 1;
             }
             if (count > M) {
                 left = mid + 1;
             }
-            if(count == M){
-                result = mid;
-                break;
-            }
-            result = mid;
         }
         System.out.println(result);
 
