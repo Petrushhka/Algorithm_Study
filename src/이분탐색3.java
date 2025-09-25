@@ -101,14 +101,15 @@ public class 이분탐색3 {
         int N = Integer.parseInt(br.readLine());
         int k = Integer.parseInt(br.readLine());
 
-        int count = 0;
 
         int left = 1;
         int right = k;
-        int mid = (left + right) / 2; // 임의의 x값
+        int result = 0;
 
         while (left < right) {
 
+            int count = 0;
+            int mid = (left + right) / 2; // 임의의 x값
             for (int i = 1; i < N; i++) {
                 count += Math.min(mid / i, N); // x/i를 가질 수 있는 값이 최대 N개 만큼 넘어갈 수 없음.
             }
@@ -118,9 +119,11 @@ public class 이분탐색3 {
             } else {
                 right = mid - 1;
             }
+
+            result = mid;
         }
 
 
-        System.out.println(mid);
+        System.out.println(result);
     }
 }
