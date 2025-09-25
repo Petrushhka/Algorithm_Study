@@ -110,17 +110,17 @@ public class 이분탐색3 {
 
             int count = 0;
             int mid = (left + right) / 2; // 임의의 x값
-            for (int i = 1; i < N; i++) {
+            for (int i = 1; i <= N; i++) {
                 count += Math.min(mid / i, N); // x/i를 가질 수 있는 값이 최대 N개 만큼 넘어갈 수 없음.
             }
 
-            if (count <= k) {
+            if (count < k) { // k개 미만
                 left = mid + 1;
-            } else {
+            } else { // k개 이상
+                result = mid;
                 right = mid - 1;
             }
 
-            result = mid;
         }
 
 
