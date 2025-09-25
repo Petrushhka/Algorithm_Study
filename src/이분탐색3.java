@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.*;
 import java.lang.*;
 
-
+//https://st-lab.tistory.com/281
 //https://www.acmicpc.net/problem/1300
 public class 이분탐색3 {
 
