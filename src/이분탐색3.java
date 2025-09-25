@@ -106,7 +106,7 @@ public class 이분탐색3 {
         int right = k;
         int result = 0;
 
-        while (left < right) {
+        while (left <= right) {
 
             int count = 0;
             int mid = (left + right) / 2; // 임의의 x값
