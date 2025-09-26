@@ -69,29 +69,37 @@ public class 그래프1 {
 
         }
 
+
         deq.offerFirst(new int[]{X,0});
+        boolean found = false;
+
         while (!deq.isEmpty()) {
 
             int[] pollArray = deq.pollLast();
-
             int pollNode = pollArray[0];
             int pollDepth = pollArray[1];
 
-            if(pollDepth == K){
+
+            if (visited[pollNode]) continue;
+            visited[pollNode] = true;
+
+            if (pollDepth == K) {
                 System.out.println(pollNode);
+                found = true;
+                continue;
             }
 
-            if (!visited[pollNode]) {
-                visited[pollNode] = true;
-            }
 
             for (int nextNode : origin[pollNode]) {
                 if (!visited[nextNode]) {
                     deq.offerFirst(new int[]{nextNode, pollDepth+1});
-                    visited[nextNode] = true;
+
                 }
             }
 
+        }
+        if(!found){
+            System.out.println(-1);
         }
     }
 }
