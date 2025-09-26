@@ -23,6 +23,7 @@ public class 그래프1 {
     static int N, M, K, X;
     static boolean[] visited;
     static List<Integer>[] origin;
+    static Deque<int[]> deq = new ArrayDeque<>();
 
     /*
          처음 노드에서 다음 노드까지 가면 depth + 1;
@@ -31,19 +32,10 @@ public class 그래프1 {
 
         K만큼의 길이로도 갈 수 있고, K보다 적은 길이로도 갈 수 있는 노드의 경우는 어떻게 걸러낼까?
         처음에 들렀던 node를 확인해서 비교?
+        -> BFS 방법으로 풀어야함.
 
     */
-    static void dfs(int node, int currentDepth) {
-        if(currentDepth == K && !visited[node]){
-        System.out.println(node);}
-        if (!visited[node]) {
-            visited[node] = true;
-            for (int nextNode : origin[node]) {
-                dfs(nextNode, currentDepth + 1);
-            }
 
-        }
-    }
 
     public static void main(String[] args) throws IOException {
 
@@ -56,7 +48,6 @@ public class 그래프1 {
         X = Integer.parseInt(st.nextToken());
 
         visited = new boolean[N + 1];
-
         origin = new ArrayList[N + 1];
 
 
@@ -73,12 +64,35 @@ public class 그래프1 {
             origin[firstNode].add(lastNode);
             /*
              반대로도 이어줘야하는지??
-             -> 흐음.. 이어줘야함. 부모노드를 통해서 가야하는 길이 생길수도 있으니
+             -> 이어주면 안됨, 단방향이기 때문임
              */
-            origin[lastNode].add(firstNode);
+
         }
 
-        dfs(X, 0);
+        deq.offerFirst(new int[]{X,0});
+        while (!deq.isEmpty()) {
+
+            int[] pollArray = deq.pollLast();
+
+            int pollNode = pollArray[0];
+            int pollDepth = pollArray[1];
+
+            if(pollDepth == K){
+                System.out.println(pollNode);
+            }
+
+            if (!visited[pollNode]) {
+                visited[pollNode] = true;
+            }
+
+            for (int nextNode : origin[pollNode]) {
+                if (!visited[nextNode]) {
+                    deq.offerFirst(new int[]{nextNode, pollDepth+1});
+                    visited[nextNode] = true;
+                }
+            }
+
+        }
     }
 }
 
