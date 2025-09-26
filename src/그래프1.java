@@ -71,6 +71,8 @@ public class 그래프1 {
 
 
         deq.offerFirst(new int[]{X,0});
+        int[] dist = new int[N + 1];               // ★ 추가: 거리 배열
+        Arrays.fill(dist, -1);
         boolean found = false;
 
         while (!deq.isEmpty()) {
@@ -84,23 +86,25 @@ public class 그래프1 {
             visited[pollNode] = true;
 
             if (pollDepth == K) {
-                System.out.println(pollNode);
-                found = true;
+                // ★ 더 깊이로 확장 금지 (출력은 나중에)
                 continue;
             }
 
-
             for (int nextNode : origin[pollNode]) {
-                if (!visited[nextNode]) {
-                    deq.offerFirst(new int[]{nextNode, pollDepth+1});
-
+                if (!visited[nextNode] && dist[nextNode] == -1) {   // ★ 최초 도달 시만
+                    dist[nextNode] = pollDepth + 1;                 // ★ 거리 기록
+                    deq.offerFirst(new int[]{nextNode, pollDepth + 1});
                 }
             }
 
         }
-        if(!found){
-            System.out.println(-1);
+        for (int i = 1; i <= N; i++) {
+            if (dist[i] == K) {
+                System.out.println(i);
+                found = true;
+            }
         }
+        if (!found) System.out.println(-1);
     }
 }
 
